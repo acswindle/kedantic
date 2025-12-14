@@ -8,3 +8,8 @@ dependencies = ["kedro>=1.1.1", "pydantic>=2.12.5"]
 
 [project.entry-points."kedro.hooks"]
 kedantic = "kedantic.plugin:hooks"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.9",
+]
