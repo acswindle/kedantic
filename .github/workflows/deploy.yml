@@ -5,7 +5,38 @@ on:
     branches: [main]  # Triggers on merge into main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]  # Adjust to your supported versions
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3  # Latest version as of late 2025
+        with:
+          enable-cache: true          # Persists uv's package cache across runs
+          cache-dependency-glob: "uv.lock"  # Invalidates cache when dependencies change
+
+      - name: Set up Python
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies and project
+        run: uv sync --all-extras --dev --frozen  # Installs from uv.lock, includes dev extras
+
+      - name: Lint with ruff (optional but recommended)
+        run: uv run ruff check .
+
+      - name: Type check with mypy (optional)
+        run: uv run mypy .
+
+      - name: Run tests
+        run: uv run pytest  # Or your test command, e.g., with coverage
+
   publish:
+    needs: test
     runs-on: ubuntu-latest
     environment: pypi  # Optional: for approval/protection rules
     permissions:
