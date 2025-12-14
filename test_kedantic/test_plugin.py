@@ -1,5 +1,5 @@
 from inspect import Parameter
-from ..kedantic.plugin import KedanticHook
+from kedantic.plugin import KedanticHook
 from unittest.mock import MagicMock
 from pydantic import BaseModel
 from kedro.pipeline.node import Node
