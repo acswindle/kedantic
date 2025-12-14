@@ -1,6 +1,6 @@
 from inspect import Parameter
 from ..kedantic.plugin import KedanticHook
-from unittest.mock import MagicMock, Mock
+from unittest.mock import MagicMock
 from pydantic import BaseModel
 
 
